@@ -1,0 +1,6 @@
+language: java
+
+deploy:
+   provider: heroku
+   api_key: "6ddf7d3c-51fd-4f28-970a-024b1a649590"
+   app: xo-chat
