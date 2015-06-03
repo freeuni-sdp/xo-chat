@@ -13,95 +13,89 @@ All operations use the task data object. It has following attributes:
 + senderUserToken - unique token of the user in form string
 
 
+## public chat messages [/publicChat]
 
+## List all messages [GET]
 
-
-A Question object has the following attributes:
-
-
-+ Response 200 (application/json)
-
-                {
-                }
-            ]
-
-
-+ Parameters
-    + question_id: 1 (required, number) - ID of the Question in form of an integer
-    + choice_id: 1 (required, number) - ID of the Choice in form of an integer
-
-### Vote on a Choice [POST]
-
-This action allows you to vote on a question's choice.
-
-+ Response 201
-
-
-            Location: /questions/1
-
-## Questions Collection [/questions{?page}]
-
-+ Parameters
-    + page: 1 (optional, number) - The page of questions to return
-
-### List All Questions [GET]
+Returns all messages  on public chat.
 
 + Response 200 (application/json)
-
-    + Headers
-
 
     + Body
 
             [
                 {
+                    "roomID":"7b5be1f4-78f9-4e32-8b75",
+                    "text":"write something",
+                    "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
                 }
             ]
 
 
 
+## Send a new message [POST]
+
+You may send  your own message using this action. It takes a JSON
+object containing a message.
+
++ roomId(string) - sender user`s room id
++ text(string) - Arbitrary text content
++ senderUserToken(string) - sender user`s token 
 
 + Request (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
+            {
+                "roomID":"7b5be1f4-78f9-4e32-8b75",
+                "text":"write something",
+                "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
+            }
 
-+ Response 201 (application/json)
++ Response 201(application/json) 
 
     + Headers
 
-            Location: /questions/2
+            Location: /publicChat
+
+
+## private chat messages [/privateChat]
+
+## List all messages [GET]
+
+Returns all messages  on private chat.
+
++ Response 200 (application/json)
 
     + Body
 
+            [
+                {
+                    "roomID":"7b5be1f4-78f9-4e32-8b75",
+                    "text":"write something",
+                    "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
+                }
+            ]
+
+
+
+## Send a new message [POST]
+
+You may send  your own message using this action. It takes a JSON
+object containing a message.
+
++ roomId(string) - sender user`s room id
++ text(string) - Arbitrary text content
++ senderUserToken(string) - sender user`s token 
+
++ Request (application/json)
+
             {
-                "question": "Favourite programming language?",
-                "published_at": "2014-11-11T08:40:51.620Z",
-                "url": "/questions/2",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "url": "/questions/2/choices/1",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "url": "/questions/2/choices/2",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "url": "/questions/2/choices/3",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "url": "/questions/2/choices/4",
-                        "votes": 0
-                    }
-                ]
+                "roomID":"7b5be1f4-78f9-4e32-8b75",
+                "text":"write something",
+                "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
             }
+
++ Response 201(application/json) 
+
+    + Headers
+
+            Location: /privateChat
