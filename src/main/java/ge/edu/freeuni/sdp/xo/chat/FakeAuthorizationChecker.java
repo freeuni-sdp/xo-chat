@@ -1,13 +1,21 @@
 package ge.edu.freeuni.sdp.xo.chat;
 
 public class FakeAuthorizationChecker {
-
 	
-	public static boolean isAuthorized(String token){
-		return true;
+	private boolean isAuthorized;
+	private boolean isCorectRoomId;
+	
+	public FakeAuthorizationChecker(){
+		isAuthorized = true;
+		isCorectRoomId = true;
 	}
 	
-	public static boolean isCorectRoomId(int roomID, String token){
-		return true;
+	
+	public  boolean isAuthorized(String token){
+		return isAuthorized;
+	}
+	
+	public  boolean isCorectRoomId(int roomID, String token){
+		return isCorectRoomId;
 	}
 } 

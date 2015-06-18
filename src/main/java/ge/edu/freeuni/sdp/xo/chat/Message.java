@@ -8,11 +8,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Message {
 	
 	@XmlElement
-	int roomID;
+	public int roomID;
 	
 	@XmlElement
-	String text;
+	public String text;
 	
 	@XmlElement
-	String senderUserToken;
+	public String senderUserToken;
 }

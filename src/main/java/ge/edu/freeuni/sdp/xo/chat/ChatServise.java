@@ -22,7 +22,8 @@ public class ChatServise {
 	@Context
 	private UriInfo uriInfo;
 	
-	FakeData fakeData = new FakeData();
+	public FakeData fakeData = new FakeData();
+	public  FakeAuthorizationChecker checker = new FakeAuthorizationChecker();
 	
 	
 	/**
@@ -34,10 +35,10 @@ public class ChatServise {
 	@GET
 	public List<Message> publicChatMessages(@QueryParam("token") String token)  {
 		final ArrayList<Message> result = new ArrayList<Message>();
-		if(!FakeAuthorizationChecker.isAuthorized(token)) throw new WebApplicationException(401);
+		if(!checker.isAuthorized(token)) throw new WebApplicationException(401);
 		for (Message message: fakeData.getPublicChatMessages()) {
 			result.add(message);
-		}
+		}		
 		return result;
 	}
 	
@@ -49,9 +50,9 @@ public class ChatServise {
 	
 	@GET
 	@Path("{roomId}")
-	public List<Message> publicChatMessages(@PathParam("roomId") int roomId,
+	public List<Message> privateChatMessages(@PathParam("roomId") int roomId,
 			@QueryParam("token") String token)  {
-		if(!FakeAuthorizationChecker.isAuthorized(token)) throw new WebApplicationException(401);
+		if(!checker.isAuthorized(token)) throw new WebApplicationException(401);
 		final ArrayList<Message> result = new ArrayList<Message>();
 		for (Message message: fakeData.getPrivateChatMessages(roomId)) {
 			result.add(message);
@@ -70,8 +71,8 @@ public class ChatServise {
 	public Response addChatMessage(Message message) throws StorageException {
 		if(message == null)return Response.status(Status.BAD_REQUEST).build();
 
-		if (!FakeAuthorizationChecker.isAuthorized(message.senderUserToken)
-				|| !FakeAuthorizationChecker.isCorectRoomId(message.roomID, message.senderUserToken))
+		if (!checker.isAuthorized(message.senderUserToken)
+				|| !checker.isCorectRoomId(message.roomID, message.senderUserToken))
 			return Response.status(401).build();
 		
 		if(message.roomID == -1){
