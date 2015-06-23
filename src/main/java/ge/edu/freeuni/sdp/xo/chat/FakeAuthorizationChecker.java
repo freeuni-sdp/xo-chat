@@ -12,10 +12,17 @@ public class FakeAuthorizationChecker {
 	
 	
 	public  boolean isAuthorized(String token){
+		if (token.equals("")){
+			return false;
+		}
 		return isAuthorized;
 	}
 	
 	public  boolean isCorectRoomId(int roomID, String token){
-		return isCorectRoomId;
+		if(roomID < -1){
+			return false;
+		}else{
+			return isCorectRoomId;
+		}
 	}
 } 
