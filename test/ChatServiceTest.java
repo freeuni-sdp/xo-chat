@@ -24,7 +24,6 @@ public class ChatServiceTest extends JerseyTest{
 	 
 	 @Test
 	 public void testGetPublicMessagesOK() {
-		 System.out.println(1);
 		 Response actual = target("/").queryParam("token", "1234").request().get();
 		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
 	 } 	
