@@ -24,18 +24,16 @@ public class ChatServiceTest extends JerseyTest{
 	 
 	 @Test
 	 public void testGetPublicMessagesOK() {
-		 Response actual = target("/?token=1234").request().get();
-
+		 System.out.println(1);
+		 Response actual = target("/").queryParam("token", "1234").request().get();
 		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
 	 } 	
 	 
 	 @Test
 	 public void testGetPrivateMessagesOK() {
-		 Response actual = target("/5/?token=token").request().get();
-
+		 Response actual = target("/5/").queryParam("token", "1234").request().get();
 		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
 	 } 
-	 
 	 
 	
 	
@@ -58,7 +56,7 @@ public class ChatServiceTest extends JerseyTest{
         
 		chatService.privateChatMessages(5,"smth");
 	}
-	
+//	
 	
 	
 	@Test

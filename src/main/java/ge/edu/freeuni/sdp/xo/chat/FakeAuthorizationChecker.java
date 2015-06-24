@@ -12,7 +12,7 @@ public class FakeAuthorizationChecker {
 	
 	
 	public  boolean isAuthorized(String token){
-		if (token.equals("")){
+		if (token ==  null || token.equals("")){
 			return false;
 		}
 		return isAuthorized;

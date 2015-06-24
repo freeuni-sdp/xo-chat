@@ -1,10 +1,4 @@
 package ge.edu.freeuni.sdp.xo.chat;
-
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.*;
@@ -29,8 +23,7 @@ public class ChatServise {
 	/**
 	 * 
 	 * @return 200 (OK), list of messages.
-	 * @throws StorageException
-	 */
+	 * @throws StorageException*/
 	
 	@GET
 	public List<Message> publicChatMessages(@QueryParam("token") String token)  {
@@ -38,7 +31,7 @@ public class ChatServise {
 		if(!checker.isAuthorized(token)) throw new WebApplicationException(401);
 		for (Message message: fakeData.getPublicChatMessages()) {
 			result.add(message);
-		}		
+		}
 		return result;
 	}
 	
