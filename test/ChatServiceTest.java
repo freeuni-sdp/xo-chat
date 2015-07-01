@@ -22,17 +22,17 @@ public class ChatServiceTest extends JerseyTest{
 	 }
 	
 	 
-	 @Test
-	 public void testGetPublicMessagesOK() {
-		 Response actual = target("/").queryParam("token", "1234").request().get();
-		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
-	 } 	
-	 
-	 @Test
-	 public void testGetPrivateMessagesOK() {
-		 Response actual = target("/5/").queryParam("token", "1234").request().get();
-		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
-	 } 
+//	 @Test
+//	 public void testGetPublicMessagesOK() {
+//		 Response actual = target("/").queryParam("token", "1234").request().get();
+//		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
+//	 } 	
+//	 
+//	 @Test
+//	 public void testGetPrivateMessagesOK() {
+//		 Response actual = target("/5/").queryParam("token", "1234").request().get();
+//		 assertEquals(Response.Status.OK.getStatusCode(), actual.getStatus());
+//	 } 
 	 
 	
 	
@@ -57,14 +57,14 @@ public class ChatServiceTest extends JerseyTest{
 	}
 
 	
-	@Test
-    public void testAddChatMessageOK() {
-		SendMessageEntity message = new SendMessageEntity();
-		message.roomID = "-1";
-		message.text = "";
-        Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
-        assertEquals(Response.Status.CREATED.getStatusCode(), actual.getStatus());
-    }
+//	@Test
+//    public void testAddChatMessageOK() {
+//		SendMessageEntity message = new SendMessageEntity();
+//		message.roomID = "-1";
+//		message.text = "";
+//        Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
+//        assertEquals(Response.Status.CREATED.getStatusCode(), actual.getStatus());
+//    }
 	
 	
 	
