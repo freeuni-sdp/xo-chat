@@ -63,9 +63,11 @@ public class ChatService {
 	@POST
 	public Response addChatMessage(@QueryParam("token") String token, 
 			SendMessageEntity msg) throws StorageException {
+		
+		if(msg == null)return Response.status(Status.BAD_REQUEST).build();
+		if(!checker.isAuthorized(token)) throw new WebApplicationException(401);
 		// ask user name xo-login service 
 		MessageEntity message = new MessageEntity(msg.roomID, msg.text, "user name");
-		if(message == null)return Response.status(Status.BAD_REQUEST).build();
 
 		if (!checker.isAuthorized(message.senderUserName)
 				|| !checker.isCorectRoomId(message.roomID, message.senderUserName))

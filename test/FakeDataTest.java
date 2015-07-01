@@ -1,6 +1,7 @@
 import static org.junit.Assert.*;
 import ge.edu.freeuni.sdp.xo.chat.FakeData;
-import ge.edu.freeuni.sdp.xo.chat.Message;
+import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
+import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ public class FakeDataTest {
 	@Test
 	public void testGetPublicMessages() {
 		assertEquals(data.getPublicChatMessages().size(), 10);
-		Message message = Mockito.mock(Message.class);
+		MessageEntity message = Mockito.mock(MessageEntity.class);
 		data.addMessageToPublicChat(message);
 		assertEquals(data.getPublicChatMessages().size(), 11);
 	}
@@ -27,7 +28,7 @@ public class FakeDataTest {
 	@Test
 	public void testGetPrivateMessages() {
 		assertEquals(data.getPrivateChatMessages(1).size(), 10);
-		Message message = Mockito.mock(Message.class);
+		MessageEntity message = Mockito.mock(MessageEntity.class);
 		data.addMessageToPrivateChat(message);
 		assertEquals(data.getPrivateChatMessages(1).size(), 11);
 	}

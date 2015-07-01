@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
-import ge.edu.freeuni.sdp.xo.chat.Message;
+import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
+import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,14 +8,11 @@ import org.junit.Test;
 
 public class MessageTest {
 
-	private Message message;
+	private MessageEntity message;
 
     @Before
     public void initMessage() {
-    	message = new Message();
-    	message.roomID = 1;
-    	message.text = "text";
-    	message.senderUserToken = "senderUserToken";
+    	message = new MessageEntity(1,"text","senderUserToken");
     }
 	
 	@Test
@@ -33,8 +31,8 @@ public class MessageTest {
 	
 	@Test
 	public void testSenderUserToken() {
-		assertTrue(message.senderUserToken.equals("senderUserToken"));
-		assertFalse(message.senderUserToken.equals("something"));
+		assertTrue(message.senderUserName.equals("senderUserToken"));
+		assertFalse(message.senderUserName.equals("something"));
 	}
 
 }

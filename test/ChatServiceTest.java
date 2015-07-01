@@ -1,8 +1,8 @@
 import static org.junit.Assert.*;
 import javax.ws.rs.core.MediaType;
-import ge.edu.freeuni.sdp.xo.chat.ChatServise;
+import ge.edu.freeuni.sdp.xo.chat.ChatService;
 import ge.edu.freeuni.sdp.xo.chat.FakeAuthorizationChecker;
-import ge.edu.freeuni.sdp.xo.chat.Message;
+import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Response;
@@ -18,7 +18,7 @@ public class ChatServiceTest extends JerseyTest{
 	
 	 @Override
 	 protected Application configure() {
-		 return new ResourceConfig(ChatServise.class);
+		 return new ResourceConfig(ChatService.class);
 	 }
 	
 	 
@@ -39,7 +39,7 @@ public class ChatServiceTest extends JerseyTest{
 	@Test (expected=WebApplicationException.class)
 	public void testPublicChatMessagesException() {
 		
-		ChatServise chatService = new ChatServise();
+		ChatService chatService = new ChatService();
 		chatService.checker = Mockito.mock(FakeAuthorizationChecker.class);
         Mockito.when(chatService.checker.isAuthorized("smth")).thenReturn(false);
         
@@ -49,22 +49,20 @@ public class ChatServiceTest extends JerseyTest{
 	@Test (expected=WebApplicationException.class)
 	public void testPrivateChatMessagesException() {
 		
-		ChatServise chatService = new ChatServise();
+		ChatService chatService = new ChatService();
 		chatService.checker = Mockito.mock(FakeAuthorizationChecker.class);
         Mockito.when(chatService.checker.isAuthorized("smth")).thenReturn(false);
         
 		chatService.privateChatMessages(5,"smth");
 	}
-//	
-	
+
 	
 	@Test
     public void testAddChatMessageOK() {
-		Message message = new Message();
+		SendMessageEntity message = new SendMessageEntity();
 		message.roomID = -1;
-		message.senderUserToken = "smth";
 		message.text = "";
-        Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
+        Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.Status.CREATED.getStatusCode(), actual.getStatus());
     }
 	
@@ -72,7 +70,7 @@ public class ChatServiceTest extends JerseyTest{
 	
 	@Test
     public void testAddChatMessageBad() {
-		Message message = null;
+		SendMessageEntity message = null;
 		
         Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), actual.getStatus());
@@ -81,9 +79,8 @@ public class ChatServiceTest extends JerseyTest{
 	@Test 
     public void testAddChatMessageExceptionBadRoomID() throws StorageException{
 		
-		Message message = new Message();
+		SendMessageEntity message = new SendMessageEntity();
 		message.roomID = -5;
-		message.senderUserToken = "smth";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.status(401).build().getStatus(), actual.getStatus());
@@ -92,9 +89,8 @@ public class ChatServiceTest extends JerseyTest{
 	@Test 
     public void testAddChatMessageExceptionBadToken() throws StorageException{
 		
-		Message message = new Message();
+		SendMessageEntity message = new SendMessageEntity();
 		message.roomID = 1;
-		message.senderUserToken = "";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.status(401).build().getStatus(), actual.getStatus());
