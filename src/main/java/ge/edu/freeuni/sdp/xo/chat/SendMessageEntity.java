@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class SendMessageEntity {
 	
 	@XmlElement
-	public int roomID;
+	public String roomID;
 	
 	@XmlElement
 	public String text;

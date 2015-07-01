@@ -15,11 +15,11 @@ public class FakeData {
 		privateMessages.put(defaultRoomId, new ArrayList<MessageEntity>());
 		for(int i = 0; i < 10; i++){
 			String text = "PUBLIC message text " + i;
-			MessageEntity m1 = new MessageEntity(-1,text,"Sanji");
+			MessageEntity m1 = new MessageEntity("-1",text,"Sanji");
 			publicMessages.add(m1);
 			
 			text = "PRIVATE message text " + i;
-			MessageEntity m2 = new MessageEntity(7,text,"Nico Robin");
+			MessageEntity m2 = new MessageEntity("7",text,"Nico Robin");
 			privateMessages.get(defaultRoomId).add(m2);
 		}
 	}

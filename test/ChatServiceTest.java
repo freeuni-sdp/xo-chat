@@ -60,7 +60,7 @@ public class ChatServiceTest extends JerseyTest{
 	@Test
     public void testAddChatMessageOK() {
 		SendMessageEntity message = new SendMessageEntity();
-		message.roomID = -1;
+		message.roomID = "-1";
 		message.text = "";
         Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.Status.CREATED.getStatusCode(), actual.getStatus());
@@ -72,7 +72,7 @@ public class ChatServiceTest extends JerseyTest{
     public void testAddChatMessageBad() {
 		SendMessageEntity message = null;
 		
-        Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
+        Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), actual.getStatus());
     }
 	
@@ -80,20 +80,20 @@ public class ChatServiceTest extends JerseyTest{
     public void testAddChatMessageExceptionBadRoomID() throws StorageException{
 		
 		SendMessageEntity message = new SendMessageEntity();
-		message.roomID = -5;
+		message.roomID = "-5";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
-        assertEquals(Response.status(401).build().getStatus(), actual.getStatus());
+        assertEquals(Response.status(422).build().getStatus(), actual.getStatus());
     }
 	
 	@Test 
     public void testAddChatMessageExceptionBadToken() throws StorageException{
 		
 		SendMessageEntity message = new SendMessageEntity();
-		message.roomID = 1;
+		message.roomID = "1";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
-        assertEquals(Response.status(401).build().getStatus(), actual.getStatus());
+        assertEquals(Response.status(422).build().getStatus(), actual.getStatus());
     }
 	
 

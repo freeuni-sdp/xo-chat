@@ -12,13 +12,13 @@ public class MessageTest {
 
     @Before
     public void initMessage() {
-    	message = new MessageEntity(1,"text","senderUserToken");
+    	message = new MessageEntity("1","text","senderUserToken");
     }
 	
 	@Test
 	public void testRoomID() {
-		assertEquals(1,message.roomID);
-		assertNotEquals(2,message.roomID);
+		assertEquals("1",message.roomID);
+		assertNotEquals("2",message.roomID);
 		
 	}
 	
