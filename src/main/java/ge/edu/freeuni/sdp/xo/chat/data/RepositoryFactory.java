@@ -9,10 +9,10 @@ import com.microsoft.azure.storage.table.*;
 public class RepositoryFactory {
 	
 	public static Repository create() throws StorageException {
-		return new CloudRepository(getTable());
+		return new CloudRepository(getTable("publicMessages"),getTable("privateMessages"));
 	}
 
-	private static CloudTable getTable() throws StorageException {
+	private static CloudTable getTable(String table) throws StorageException {
 		
 		//TODO real implementation
 		final String storageConnectionString = "DefaultEndpointsProtocol=http;"
@@ -28,7 +28,7 @@ public class RepositoryFactory {
 		}
 
 		CloudTableClient tableClient = storageAccount.createCloudTableClient();
-		final String tableName = "messages";
+		final String tableName = table;
 		CloudTable cloudTable;
 		try {
 			cloudTable = new CloudTable(tableName, tableClient);

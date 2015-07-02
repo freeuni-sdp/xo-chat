@@ -2,7 +2,9 @@ package ge.edu.freeuni.sdp.xo.chat;
 
 import javax.xml.bind.annotation.XmlElement;
 
-public class MessageEntity {
+import com.microsoft.azure.storage.table.TableServiceEntity;
+
+public class MessageEntity extends TableServiceEntity {
 	@XmlElement
 	public String roomID;
 	
@@ -16,6 +18,11 @@ public class MessageEntity {
 		this.roomID = roomID;
 		this.text = text;
 		this.senderUserName = senderUserName;
+		this.rowKey = roomID ;
+	}
+	
+	public String getRoomID(){
+		return this.roomID;
 	}
 
 }
