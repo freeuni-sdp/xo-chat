@@ -14,6 +14,9 @@ public class MessageEntity extends TableServiceEntity {
 	@XmlElement
 	public String senderUserName;
 	
+	public MessageEntity(){	
+	}
+	
 	public MessageEntity(String roomID, String text, String senderUserName) {
 		this.roomID = roomID;
 		this.text = text;

@@ -10,7 +10,7 @@ public interface Repository {
 	
 	public  abstract ArrayList<MessageEntity> getPublicChatMessages();
 	
-	public abstract ArrayList<MessageEntity> getPrivateChatMessages(int roomId);
+	public abstract ArrayList<MessageEntity> getPrivateChatMessages(String roomId);
 	
 	public abstract void addMessageToPublicChat(MessageEntity message) throws StorageException;
 	

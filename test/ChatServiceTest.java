@@ -53,7 +53,7 @@ public class ChatServiceTest extends JerseyTest{
 		chatService.checker = Mockito.mock(FakeAuthorizationChecker.class);
         Mockito.when(chatService.checker.isAuthorized("smth")).thenReturn(false);
         
-		chatService.privateChatMessages(5,"smth");
+		chatService.privateChatMessages("5","smth");
 	}
 
 	

@@ -65,7 +65,7 @@ public class ChatService {
 	@GET
 	@Path("{roomId}")
 	public List<MessageEntity> privateChatMessages(
-			@PathParam("roomId") int roomId, @QueryParam("token") String token) {
+			@PathParam("roomId") String roomId, @QueryParam("token") String token) {
 		if (!isTokenValid(token))
 			throw new WebApplicationException(UNPROCESSABLE_ENTITY);
 

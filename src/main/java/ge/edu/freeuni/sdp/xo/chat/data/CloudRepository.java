@@ -29,7 +29,7 @@ public class CloudRepository implements Repository {
 	}
 
 	@Override
-	public ArrayList<MessageEntity> getPrivateChatMessages(int roomId) {
+	public ArrayList<MessageEntity> getPrivateChatMessages(String roomId) {
 		// TODO Auto-generated method stub
 		ArrayList<MessageEntity> result = new ArrayList<>();
 		TableQuery<MessageEntity> query = TableQuery.from(MessageEntity.class);
