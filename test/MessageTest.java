@@ -1,9 +1,13 @@
 import static org.junit.Assert.*;
+
+import ge.edu.freeuni.sdp.xo.chat.MessageDo;
 import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
 import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.UUID;
 
 
 public class MessageTest {
@@ -12,27 +16,29 @@ public class MessageTest {
 
     @Before
     public void initMessage() {
-    	message = new MessageEntity("1","text","senderUserToken");
+		MessageDo mDo = new MessageDo();
+		mDo.setId(UUID.randomUUID().toString());
+		mDo.setRoomID("1");
+		mDo.setSenderUserName("senderUserToken");
+		mDo.setText("text");
+    	message = new MessageEntity(mDo);
     }
 	
 	@Test
 	public void testRoomID() {
-		assertEquals("1",message.roomID);
-		assertNotEquals("2",message.roomID);
-		
+		assertEquals("1",message.getRoomID());
+
 	}
 	
 	@Test
 	public void testText() {
-		assertTrue(message.text.equals("text"));
-		assertFalse(message.text.equals("something"));
-		
+		assertTrue(message.getText().equals("text"));
+
 	}
 	
 	@Test
 	public void testSenderUserToken() {
-		assertTrue(message.senderUserName.equals("senderUserToken"));
-		assertFalse(message.senderUserName.equals("something"));
+		assertTrue(message.getSenderUserName().equals("senderUserToken"));
 	}
 
 }

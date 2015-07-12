@@ -8,12 +8,12 @@ import com.microsoft.azure.storage.StorageException;
 
 public interface Repository {
 	
-	public  abstract ArrayList<MessageEntity> getPublicChatMessages();
+	Iterable<MessageEntity> getPublicChatMessages();
 	
-	public abstract ArrayList<MessageEntity> getPrivateChatMessages(String roomId);
+	ArrayList<MessageEntity> getPrivateChatMessages(String roomId);
 	
-	public abstract void addMessageToPublicChat(MessageEntity message) throws StorageException;
+	void addMessageToPublicChat(MessageEntity message) throws StorageException;
 	
-	public abstract void addMessageToPrivateChat(MessageEntity message) throws StorageException;
+	void addMessageToPrivateChat(MessageEntity message) throws StorageException;
 
 }
