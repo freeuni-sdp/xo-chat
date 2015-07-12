@@ -37,7 +37,7 @@ public class ChatServiceTest extends JerseyTest{
 	
 	
 	@Test (expected=WebApplicationException.class)
-	public void testPublicChatMessagesException() {
+	public void testPublicChatMessagesException() throws StorageException {
 		
 		ChatService chatService = new ChatService();
 		chatService.checker = Mockito.mock(FakeAuthorizationChecker.class);

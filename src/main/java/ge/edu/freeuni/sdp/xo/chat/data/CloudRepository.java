@@ -18,25 +18,19 @@ public class CloudRepository implements Repository {
 	}
 
 	@Override
-	public ArrayList<MessageEntity> getPublicChatMessages() {
-		// TODO Auto-generated method stub
-		ArrayList<MessageEntity> result = new ArrayList<>();
+	public Iterable<MessageEntity> getPublicChatMessages() {
 		TableQuery<MessageEntity> query = TableQuery.from(MessageEntity.class);
-		for (MessageEntity entity : tableForPublicChat.execute(query)) {
-			result.add(entity);
-		}
-		return result;
+		return tableForPublicChat.execute(query);
 	}
 
 	@Override
 	public ArrayList<MessageEntity> getPrivateChatMessages(String roomId) {
-		// TODO Auto-generated method stub
 		ArrayList<MessageEntity> result = new ArrayList<>();
 		TableQuery<MessageEntity> query = TableQuery.from(MessageEntity.class);
 		for (MessageEntity entity : tableForPrivateChat.execute(query)) {
-			if(entity.getRoomID().equals("" + roomId)){
+			if(entity.getRoomID().equals(roomId)){
 				result.add(entity);
-			}		
+			}
 		}
 		return result;
 	}
@@ -44,7 +38,6 @@ public class CloudRepository implements Repository {
 	@Override
 	public void addMessageToPublicChat(MessageEntity message)
 			throws StorageException {
-		// TODO Auto-generated method stub		
 		TableOperation insertMessage = TableOperation.insert(message);
 		try {
 			tableForPublicChat.execute(insertMessage);
@@ -56,7 +49,6 @@ public class CloudRepository implements Repository {
 	@Override
 	public void addMessageToPrivateChat(MessageEntity message)
 			throws StorageException {
-		// TODO Auto-generated method stub				
 		TableOperation insertMessage = TableOperation.insert(message);
 		try {
 			tableForPrivateChat.execute(insertMessage);

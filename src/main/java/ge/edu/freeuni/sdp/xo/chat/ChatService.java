@@ -5,6 +5,7 @@ import ge.edu.freeuni.sdp.xo.chat.data.RepositoryFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -25,7 +26,7 @@ public class ChatService {
 	private static final String XO_LOGIN_SERVICE = "http://xo-login.herokuapp.com/webapi/login/";
 	private static final String XO_ROOMS_SERVICE = "http://xo-rooms.herokuapp.com/room_id?token=";
 	public static final int UNPROCESSABLE_ENTITY = 422;
-	public FakeData fakeData = new FakeData();
+//	public FakeData fakeData = new FakeData();
 	public FakeAuthorizationChecker checker = new FakeAuthorizationChecker();
 
 	public Repository getRepository() throws StorageException {
@@ -39,18 +40,13 @@ public class ChatService {
 	 */
 
 	@GET
-	public List<MessageEntity> publicChatMessages(
-			@QueryParam("token") String token) {
-		final ArrayList<MessageEntity> result = new ArrayList<MessageEntity>();
+	public List<MessageDo> publicChatMessages(
+			@QueryParam("token") String token) throws StorageException {
+		final List result = new ArrayList<>();
 		if (!isTokenValid(token))
 			throw new WebApplicationException(UNPROCESSABLE_ENTITY);
-		try {
-			for (MessageEntity message : getRepository()
-					.getPublicChatMessages()) {
-				result.add(message);
-			}
-		} catch (StorageException e) {
-			e.printStackTrace();
+		for (MessageEntity message : getRepository().getPublicChatMessages()) {
+			result.add(message.toDo());
 		}
 
 		return result;
@@ -64,16 +60,16 @@ public class ChatService {
 
 	@GET
 	@Path("{roomId}")
-	public List<MessageEntity> privateChatMessages(
+	public List<MessageDo> privateChatMessages(
 			@PathParam("roomId") String roomId, @QueryParam("token") String token) {
 		if (!isTokenValid(token))
 			throw new WebApplicationException(UNPROCESSABLE_ENTITY);
 
-		final ArrayList<MessageEntity> result = new ArrayList<MessageEntity>();
+		final List result = new ArrayList<MessageEntity>();
 		try {
 			for (MessageEntity message : getRepository()
 					.getPrivateChatMessages(roomId)) {
-				result.add(message);
+				result.add(message.toDo());
 			}
 		} catch (StorageException e) {
 			e.printStackTrace();
@@ -89,29 +85,30 @@ public class ChatService {
 	 * @throws StorageException
 	 */
 	@POST
-	public Response addChatMessage(@QueryParam("token") String token,
-			SendMessageEntity msg) throws StorageException {
+	public Response addPrivateChatMessage(@QueryParam("token") String token,
+										  MessageDo message) throws StorageException {
 		
-		if (msg == null)
+		if (message == null)
 			return Response.status(Status.BAD_REQUEST).build();
 	
 		if (!isTokenValid(token))
 			return Response.status(UNPROCESSABLE_ENTITY).build();
 
 		String userName = getUserNameFromToken(token);
+		message.setId(UUID.randomUUID().toString());
+		message.setSenderUserName(userName);
 
-		MessageEntity message = new MessageEntity(msg.roomID, msg.text,
-				userName);
+		MessageEntity messageEntity = new MessageEntity(message);
 		String negativeRoomID = "-1";
 				
 		if (negativeRoomID.equals(message.roomID)) {
-			getRepository().addMessageToPublicChat(message);
+			getRepository().addMessageToPublicChat(messageEntity);
 		} else {
 			// TODO real check Is correct room id
 			if (!isCorectRoomId(message.roomID, token))
 				return Response.status(Status.FORBIDDEN).build();
 			
-			getRepository().addMessageToPrivateChat(message);
+			getRepository().addMessageToPrivateChat(messageEntity);
 		}
 
 		return Response.status(Status.CREATED).build();

@@ -2,6 +2,7 @@ package ge.edu.freeuni.sdp.xo.chat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 
 public class FakeData {
@@ -15,11 +16,16 @@ public class FakeData {
 		privateMessages.put(defaultRoomId, new ArrayList<MessageEntity>());
 		for(int i = 0; i < 10; i++){
 			String text = "PUBLIC message text " + i;
-			MessageEntity m1 = new MessageEntity("-1",text,"Sanji");
+			MessageDo mDo = new MessageDo();
+			mDo.setId(UUID.randomUUID().toString());
+			mDo.setRoomID(UUID.randomUUID().toString());
+			mDo.setSenderUserName("asd");
+			mDo.setText("text");
+			MessageEntity m1 = new MessageEntity(mDo);
 			publicMessages.add(m1);
 			
 			text = "PRIVATE message text " + i;
-			MessageEntity m2 = new MessageEntity("7",text,"Nico Robin");
+			MessageEntity m2 = new MessageEntity(mDo);
 			privateMessages.get(defaultRoomId).add(m2);
 		}
 	}
