@@ -6,46 +6,33 @@ HOST: http://xo-chat.herokuapp.com/
 xo-chat  is a simple API allowing user  to send and receive messages
 
 
-All operations use the task data object. It has following attributes:
+All operations use the message data object. It has following attributes:
 
 + roomId - unique ID of the room in form of a string 
 + text - arbitrary text content of a message, assigned by user
 + senderUserToken - unique token of the user in form string
 
 
-# public chat API Root [/]
+# public chat API Root [/{?token}]
 
 
-## Last  10 messages list [GET/{?token}]
+## List all messages [GET/]
 
 + token - unique token of the user in form string
 
-Returns last 10 messages  on public chat and next page's link.
+Returns all messages  on public chat.
 
 + Response 200 (application/json)
 
     + Body
 
-            {
-                "messages":
-                            [
-                                {
-                                    "roomID":"7",
-                                    "text":"message 1",
-                                    "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
-                                }
-                                ...
-                                {
-                                    "roomID":"7",
-                                    "text":"message 10",
-                                    "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
-                                }                                
-                            ],
-                "paging":
-                            {
-                                "next": "http://xo-chat.herokuapp.com/?start_point=message_number"
-                            }
-            }
+            [
+                {
+                    "roomID":"7b5be1f4-78f9-4e32-8b75",
+                    "text":"write something",
+                    "senderUserName":"Sanji"
+                }
+            ]
 
 
 
@@ -56,70 +43,53 @@ object containing a message.
 
 + roomId(string) - sender user`s room id
 + text(string) - Arbitrary text content
-+ senderUserToken(string) - sender user`s token 
 
 + Request (application/json)
 
             {
-                "roomID":"7b5be1f4-78f9-4e32-8b75",
+                "roomID":"-1",
                 "text":"write something",
-                "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
             }
 
 + Response 201
 
 
+## private chat messages [/{room_id}{?token}]
 
-## private chat messages [/privateChat]
-
-## Last 10 messages list[GET/{room_id}{?token}]
+## List all messages [GET/]
 
  
 + token - unique token of the user in form string
 
-Returns  last 10 messages on private chat and next page's link..
+Returns all messages  on private chat.
 
 + Response 200 (application/json)
 
-     + Body
+    + Body
 
-            {
-                "messages":
-                            [
-                                {
-                                    "roomID":"7",
-                                    "text":"message 1",
-                                    "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
-                                }
-                                ...
-                                {
-                                    "roomID":"15",
-                                    "text":"message 10",
-                                    "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
-                                }                                
-                            ],
-                "paging":
-                            {
-                                "next": "http://xo-chat.herokuapp.com/15/?start_point=message_number"
-                            }
-            }
+            [
+                {
+                    "roomID":"7b5be1f4-78f9-4e32-8b75",
+                    "text":"write something",
+                    "senderUserName":"Nico Robin",
+                }
+            ]
 
 
-## Send a new message [POST/{room_id}]
+
+## Send a new message [POST/]
 
 You may send  your own message using this action. It takes a JSON
 object containing a message.
 
 + roomId(string) - sender user`s room id
 + text(string) - Arbitrary text content
-+ senderUserToken(string) - sender user`s token 
 
 + Request (application/json)
 
             {
                 "roomID":"7b5be1f4-78f9-4e32-8b75",
                 "text":"write something",
-                "senderUserToken":"7b5be1f4-78f9-4e32-8b75-a7e87afec327",
             }
 
 + Response 201
