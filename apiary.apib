@@ -13,10 +13,10 @@ All operations use the message data object. It has following attributes:
 + senderUserToken - unique token of the user in form string
 
 
-# public chat API Root [/webapi]
+# public chat API Root [/webapi/{?token}]
 
 
-## List all messages [GET/{?token}]
+## List all messages [GET]
 
 + token - unique token of the user in form string
 
@@ -36,7 +36,7 @@ Returns all messages  on public chat.
 
 
 
-## Send a new message [POST/{?token}]
+## Send a new message [POST]
 
 You may send  your own message using this action. It takes a JSON
 object containing a message.
@@ -54,7 +54,7 @@ object containing a message.
 + Response 201
 
 
-## private chat messages [/{room_id}{?token}]
+## private chat messages [/webapi/{room_id}{?token}]
 
 ## List all messages [GET]
 
