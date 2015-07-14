@@ -1,12 +1,12 @@
-import static org.junit.Assert.*;
 import ge.edu.freeuni.sdp.xo.chat.PingService;
+import org.glassfish.jersey.server.ResourceConfig;
+import org.glassfish.jersey.test.JerseyTest;
+import org.junit.Test;
 
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 
-import org.junit.Test;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
+import static org.junit.Assert.assertEquals;
 
 public class PingServiceTest extends JerseyTest{
 

@@ -1,8 +1,8 @@
-import static org.junit.Assert.*;
 import ge.edu.freeuni.sdp.xo.chat.FakeAuthorizationChecker;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertTrue;
 
 
 public class FakeAuthorizationCheckerTest {

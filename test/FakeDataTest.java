@@ -1,11 +1,10 @@
-import static org.junit.Assert.*;
 import ge.edu.freeuni.sdp.xo.chat.FakeData;
-import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
-import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
-
+import ge.edu.freeuni.sdp.xo.chat.data.MessageEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
+import static org.junit.Assert.assertEquals;
 
 
 public class FakeDataTest {

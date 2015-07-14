@@ -1,5 +1,7 @@
 package ge.edu.freeuni.sdp.xo.chat;
 
+import ge.edu.freeuni.sdp.xo.chat.data.MessageEntity;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;

@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * 
- * Copied from xo-rooms/src/main/java/ge/edu/freeuni/sdp/xo/rooms/data/Room.java
+ * Copied from xo-rooms/src/main/java/ge/edu/freeuni/sdp/xo/rooms/data/RoomDo.java
  *
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Room {
+public class RoomDo {
 	
 	@XmlElement
 	private String id;
@@ -25,7 +25,7 @@ public class Room {
 	private String o_user;
 	
 	
-	public Room(){
+	public RoomDo(){
 		//Dummy
 	}
 	
@@ -34,7 +34,7 @@ public class Room {
 	 * @param x_user
 	 * @param o_user
 	 */
-	public Room(String id, String x_user, String o_user) {
+	public RoomDo(String id, String x_user, String o_user) {
 		this.id = id;
 		this.x_user = x_user;
 		this.o_user = o_user;

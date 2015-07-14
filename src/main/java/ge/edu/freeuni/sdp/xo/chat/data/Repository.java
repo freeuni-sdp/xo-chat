@@ -1,10 +1,8 @@
 package ge.edu.freeuni.sdp.xo.chat.data;
 
-import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
+import com.microsoft.azure.storage.StorageException;
 
 import java.util.ArrayList;
-
-import com.microsoft.azure.storage.StorageException;
 
 public interface Repository {
 	

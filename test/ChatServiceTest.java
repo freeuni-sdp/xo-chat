@@ -1,17 +1,19 @@
-import static org.junit.Assert.*;
-import javax.ws.rs.core.MediaType;
+import com.microsoft.azure.storage.StorageException;
 import ge.edu.freeuni.sdp.xo.chat.ChatService;
 import ge.edu.freeuni.sdp.xo.chat.FakeAuthorizationChecker;
-import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
-import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.Response;
+import ge.edu.freeuni.sdp.xo.chat.SendMessageDo;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.junit.Test;
 import org.mockito.Mockito;
-import com.microsoft.azure.storage.StorageException;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
+import static org.junit.Assert.assertEquals;
 public class ChatServiceTest extends JerseyTest{
 
 	
@@ -59,7 +61,7 @@ public class ChatServiceTest extends JerseyTest{
 	
 //	@Test
 //    public void testAddChatMessageOK() {
-//		SendMessageEntity message = new SendMessageEntity();
+//		SendMessageDo message = new SendMessageDo();
 //		message.roomID = "-1";
 //		message.text = "";
 //        Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
@@ -70,7 +72,7 @@ public class ChatServiceTest extends JerseyTest{
 	
 	@Test
     public void testAddChatMessageBad() {
-		SendMessageEntity message = null;
+		SendMessageDo message = null;
 		
         Response actual = target("/").queryParam("token", "1234").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
         assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), actual.getStatus());
@@ -79,7 +81,7 @@ public class ChatServiceTest extends JerseyTest{
 	@Test 
     public void testAddChatMessageExceptionBadRoomID() throws StorageException{
 		
-		SendMessageEntity message = new SendMessageEntity();
+		SendMessageDo message = new SendMessageDo();
 		message.roomID = "-5";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
@@ -89,7 +91,7 @@ public class ChatServiceTest extends JerseyTest{
 	@Test 
     public void testAddChatMessageExceptionBadToken() throws StorageException{
 		
-		SendMessageEntity message = new SendMessageEntity();
+		SendMessageDo message = new SendMessageDo();
 		message.roomID = "1";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));

@@ -1,11 +1,11 @@
 package ge.edu.freeuni.sdp.xo.chat.data;
 
-import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.table.CloudTable;
+import com.microsoft.azure.storage.table.TableOperation;
+import com.microsoft.azure.storage.table.TableQuery;
 
 import java.util.ArrayList;
-
-import com.microsoft.azure.storage.*;
-import com.microsoft.azure.storage.table.*;
 
 public class CloudRepository implements Repository {
 

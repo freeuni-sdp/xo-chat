@@ -1,6 +1,7 @@
-package ge.edu.freeuni.sdp.xo.chat;
+package ge.edu.freeuni.sdp.xo.chat.data;
 
 import com.microsoft.azure.storage.table.TableServiceEntity;
+import ge.edu.freeuni.sdp.xo.chat.MessageDo;
 
 public class MessageEntity extends TableServiceEntity {
 	private String roomID;

@@ -1,13 +1,12 @@
-import static org.junit.Assert.*;
-
 import ge.edu.freeuni.sdp.xo.chat.MessageDo;
-import ge.edu.freeuni.sdp.xo.chat.MessageEntity;
-import ge.edu.freeuni.sdp.xo.chat.SendMessageEntity;
-
+import ge.edu.freeuni.sdp.xo.chat.data.MessageEntity;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class MessageTest {

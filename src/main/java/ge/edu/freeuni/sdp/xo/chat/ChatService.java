@@ -1,20 +1,25 @@
 package ge.edu.freeuni.sdp.xo.chat;
 
+import com.microsoft.azure.storage.StorageException;
+import ge.edu.freeuni.sdp.xo.chat.data.MessageEntity;
 import ge.edu.freeuni.sdp.xo.chat.data.Repository;
 import ge.edu.freeuni.sdp.xo.chat.data.RepositoryFactory;
+import org.glassfish.jersey.client.ClientConfig;
+import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.core.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.glassfish.jersey.client.ClientConfig;
-
-import com.microsoft.azure.storage.StorageException;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Path("/")
 @Consumes({ MediaType.APPLICATION_JSON })
@@ -65,7 +70,7 @@ public class ChatService {
 		if (!isTokenValid(token))
 			throw new WebApplicationException(UNPROCESSABLE_ENTITY);
 
-		final List result = new ArrayList<MessageEntity>();
+		final List result = new ArrayList<>();
 		try {
 			for (MessageEntity message : getRepository()
 					.getPrivateChatMessages(roomId)) {
@@ -95,7 +100,7 @@ public class ChatService {
 			return Response.status(UNPROCESSABLE_ENTITY).build();
 
 		String userName = getUserNameFromToken(token);
-		message.setId(UUID.randomUUID().toString());
+		message.setId(uniqueSequentialId());
 		message.setSenderUserName(userName);
 
 		MessageEntity messageEntity = new MessageEntity(message);
@@ -127,7 +132,7 @@ public class ChatService {
 			if (response.getStatus() != Status.OK.getStatusCode())
 				return null;
 
-			Room room = response.readEntity(Room.class);
+			RoomDo room = response.readEntity(RoomDo.class);
 
 			return room.getId();
 		} catch (WebApplicationException e) {
@@ -158,4 +163,15 @@ public class ChatService {
 	private boolean isTokenValid(String token) {
 		return getUserNameFromToken(token) != null;
 	}
+
+	private static final AtomicInteger seq = new AtomicInteger();
+	private String uniqueSequentialId() {
+		int nextVal = seq.incrementAndGet();
+
+		DateTime dt = new DateTime();
+		LocalDate ld = dt.toLocalDate();
+
+		return ld + "-" + nextVal;
+	}
+
 }
