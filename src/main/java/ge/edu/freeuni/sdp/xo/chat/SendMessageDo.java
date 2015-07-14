@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 
 @XmlRootElement
-public class SendMessageEntity {
+public class SendMessageDo {
 	
 	@XmlElement
 	public String roomID;

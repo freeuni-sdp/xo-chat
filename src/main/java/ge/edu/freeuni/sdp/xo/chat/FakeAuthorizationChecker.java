@@ -11,18 +11,11 @@ public class FakeAuthorizationChecker {
 	}
 	
 	
-	public  boolean isAuthorized(String token){
-		if (token ==  null || token.equals("")){
-			return false;
-		}
-		return isAuthorized;
+	public  boolean isAuthorized(String token) {
+		return !(token == null || token.equals("")) && isAuthorized;
 	}
 	
-	public  boolean isCorectRoomId(int roomID, String token){
-		if(roomID < -1){
-			return false;
-		}else{
-			return isCorectRoomId;
-		}
+	public  boolean isCorectRoomId(int roomID, String token) {
+		return roomID >= -1 && isCorectRoomId;
 	}
 } 

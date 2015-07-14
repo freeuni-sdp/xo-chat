@@ -1,10 +1,12 @@
 package ge.edu.freeuni.sdp.xo.chat.data;
 
+import com.microsoft.azure.storage.CloudStorageAccount;
+import com.microsoft.azure.storage.StorageException;
+import com.microsoft.azure.storage.table.CloudTable;
+import com.microsoft.azure.storage.table.CloudTableClient;
+
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
-
-import com.microsoft.azure.storage.*;
-import com.microsoft.azure.storage.table.*;
 
 public class RepositoryFactory {
 	
@@ -28,10 +30,9 @@ public class RepositoryFactory {
 		}
 
 		CloudTableClient tableClient = storageAccount.createCloudTableClient();
-		final String tableName = table;
 		CloudTable cloudTable;
 		try {
-			cloudTable = new CloudTable(tableName, tableClient);
+			cloudTable = new CloudTable(table, tableClient);
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 			return null;
