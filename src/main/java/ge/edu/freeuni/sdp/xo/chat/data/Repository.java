@@ -6,14 +6,10 @@ import java.util.ArrayList;
 
 public interface Repository {
 	
-	Iterable<MessageEntity> getPublicChatMessages();
-	
-	ArrayList<MessageEntity> getPrivateChatMessages(String roomId);
-	
-	void addMessageToPublicChat(MessageEntity message) throws StorageException;
-	
-	void addMessageToPrivateChat(MessageEntity message) throws StorageException;
+	Iterable<MessageEntity> getMessages(String roomId);
 
-	void deleteMessageFromPublicChat(MessageEntity message) throws StorageException;
+	void postMessage(MessageEntity message) throws StorageException;
+	
+	void deleteMessage(MessageEntity message) throws StorageException;
 
 }

@@ -9,9 +9,22 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 
 public class RepositoryFactory {
-	
-	public static Repository create() throws StorageException {
-		return new CloudRepository(getTable("publicMessages"),getTable("privateMessages"));
+
+	private static RepositoryFactory repositoryFactory;
+
+	public static RepositoryFactory create() throws StorageException {
+		if (repositoryFactory == null) {
+			repositoryFactory = new RepositoryFactory();
+		}
+		return repositoryFactory;
+	}
+
+	public Repository getPrivateRepository() throws StorageException {
+		return new RepositoryImpl(getTable("privateMessages"));
+	}
+
+	public Repository getPublicRepository() throws StorageException {
+		return new RepositoryImpl(getTable("publicMessages"));
 	}
 
 	private static CloudTable getTable(String table) throws StorageException {

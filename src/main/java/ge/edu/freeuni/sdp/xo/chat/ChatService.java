@@ -6,7 +6,6 @@ import ge.edu.freeuni.sdp.xo.chat.data.Repository;
 import ge.edu.freeuni.sdp.xo.chat.data.RepositoryFactory;
 import org.glassfish.jersey.client.ClientConfig;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeFieldType;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
@@ -20,7 +19,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Path("/")
@@ -35,7 +33,7 @@ public class ChatService {
 	public static final int UNPROCESSABLE_ENTITY = 422;
 	public FakeAuthorizationChecker checker = new FakeAuthorizationChecker();
 
-	public Repository getRepository() throws StorageException {
+	public RepositoryFactory getRepositoryFactory() throws StorageException {
 		return RepositoryFactory.create();
 	}
 
@@ -51,7 +49,9 @@ public class ChatService {
 		final List result = new ArrayList<>();
 		if (!isTokenValid(token))
 			throw new WebApplicationException(UNPROCESSABLE_ENTITY);
-		for (MessageEntity message : getRepository().getPublicChatMessages()) {
+
+		Repository repository = getRepositoryFactory().getPublicRepository();
+		for (MessageEntity message : repository.getMessages("-1")) {
 			result.add(message.toDo());
 		}
 
@@ -67,18 +67,14 @@ public class ChatService {
 	@GET
 	@Path("{roomId}")
 	public List<MessageDo> privateChatMessages(
-			@PathParam("roomId") String roomId, @QueryParam("token") String token) {
+			@PathParam("roomId") String roomId, @QueryParam("token") String token) throws StorageException {
 		if (!isTokenValid(token))
 			throw new WebApplicationException(UNPROCESSABLE_ENTITY);
 
+		Repository repository = getRepositoryFactory().getPrivateRepository();
 		final List result = new ArrayList<>();
-		try {
-			for (MessageEntity message : getRepository()
-					.getPrivateChatMessages(roomId)) {
-				result.add(message.toDo());
-			}
-		} catch (StorageException e) {
-			e.printStackTrace();
+		for (MessageEntity message : repository.getMessages(roomId)) {
+			result.add(message.toDo());
 		}
 
 		return result;
@@ -106,15 +102,20 @@ public class ChatService {
 
 		MessageEntity messageEntity = new MessageEntity(message);
 
-		if ("-1".equals(message.roomID)) {
-			getRepository().addMessageToPublicChat(messageEntity);
-			tryDeleteOldRecords();
+		String roomId = messageEntity.getRoomID();
+		Repository repository;
+		if ("-1".equals(roomId)) {
+			repository = getRepositoryFactory().getPublicRepository();
+			repository.postMessage(messageEntity);
 		} else {
-			if (!isCorectRoomId(message.roomID, token))
+			if (!isCorectRoomId(roomId, token)) {
 				return Response.status(Status.FORBIDDEN).build();
+			}
 
-			getRepository().addMessageToPrivateChat(messageEntity);
+			repository = getRepositoryFactory().getPrivateRepository();
+			repository.postMessage(messageEntity);
 		}
+		tryDeleteOldRecords(repository, roomId);
 
 		return Response.status(Status.CREATED).build();
 	}
@@ -175,15 +176,14 @@ public class ChatService {
 	}
 
 	private static final int threshold = 5;
-	private void tryDeleteOldRecords() throws StorageException {
-		Repository repository = getRepository();
+	private void tryDeleteOldRecords(Repository repository, String roomId) throws StorageException {
 		final List<MessageEntity> result = new ArrayList<>();
-		for (MessageEntity message : repository.getPublicChatMessages()) {
+		for (MessageEntity message : repository.getMessages(roomId)) {
 			result.add(message);
 		}
 
 		for (int i=0; i<result.size()-threshold; i++) {
-			repository.deleteMessageFromPublicChat(result.get(i));
+			repository.deleteMessage(result.get(i));
 		}
 	}
 
