@@ -6,6 +6,8 @@ import ge.edu.freeuni.sdp.xo.chat.data.Repository;
 import ge.edu.freeuni.sdp.xo.chat.data.RepositoryFactory;
 import org.glassfish.jersey.client.ClientConfig;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
 import javax.ws.rs.*;
@@ -39,7 +41,7 @@ public class ChatService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 200 (OK), list of messages.
 	 * @throws StorageException
 	 */
@@ -58,7 +60,7 @@ public class ChatService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return 200 (OK), list of messages.
 	 * @throws StorageException
 	 */
@@ -84,7 +86,7 @@ public class ChatService {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param message
 	 * @return 201 (Created)
 	 * @throws StorageException
@@ -92,10 +94,10 @@ public class ChatService {
 	@POST
 	public Response addPrivateChatMessage(@QueryParam("token") String token,
 										  MessageDo message) throws StorageException {
-		
+
 		if (message == null)
 			return Response.status(Status.BAD_REQUEST).build();
-	
+
 		if (!isTokenValid(token))
 			return Response.status(UNPROCESSABLE_ENTITY).build();
 
@@ -105,14 +107,14 @@ public class ChatService {
 
 		MessageEntity messageEntity = new MessageEntity(message);
 		String negativeRoomID = "-1";
-				
+
 		if (negativeRoomID.equals(message.roomID)) {
 			getRepository().addMessageToPublicChat(messageEntity);
 		} else {
 			// TODO real check Is correct room id
 			if (!isCorectRoomId(message.roomID, token))
 				return Response.status(Status.FORBIDDEN).build();
-			
+
 			getRepository().addMessageToPrivateChat(messageEntity);
 		}
 
@@ -168,10 +170,10 @@ public class ChatService {
 	private String uniqueSequentialId() {
 		int nextVal = seq.incrementAndGet();
 
-		DateTime dt = new DateTime();
+		DateTime dt = new DateTime(DateTimeZone.UTC);
 		LocalDate ld = dt.toLocalDate();
 
-		return ld + "-" + nextVal;
+		return ld + "-" + System.currentTimeMillis() + "-" + nextVal;
 	}
 
 }
