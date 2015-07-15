@@ -33,7 +33,6 @@ public class ChatService {
 	private static final String XO_LOGIN_SERVICE = "http://xo-login.herokuapp.com/webapi/login/";
 	private static final String XO_ROOMS_SERVICE = "http://xo-rooms.herokuapp.com/room_id?token=";
 	public static final int UNPROCESSABLE_ENTITY = 422;
-//	public FakeData fakeData = new FakeData();
 	public FakeAuthorizationChecker checker = new FakeAuthorizationChecker();
 
 	public Repository getRepository() throws StorageException {
@@ -106,12 +105,11 @@ public class ChatService {
 		message.setSenderUserName(userName);
 
 		MessageEntity messageEntity = new MessageEntity(message);
-		String negativeRoomID = "-1";
 
-		if (negativeRoomID.equals(message.roomID)) {
+		if ("-1".equals(message.roomID)) {
 			getRepository().addMessageToPublicChat(messageEntity);
+			tryDeleteOldRecords();
 		} else {
-			// TODO real check Is correct room id
 			if (!isCorectRoomId(message.roomID, token))
 				return Response.status(Status.FORBIDDEN).build();
 
@@ -174,6 +172,19 @@ public class ChatService {
 		LocalDate ld = dt.toLocalDate();
 
 		return ld + "-" + System.currentTimeMillis() + "-" + nextVal;
+	}
+
+	private static final int threshold = 5;
+	private void tryDeleteOldRecords() throws StorageException {
+		Repository repository = getRepository();
+		final List<MessageEntity> result = new ArrayList<>();
+		for (MessageEntity message : repository.getPublicChatMessages()) {
+			result.add(message);
+		}
+
+		for (int i=0; i<result.size()-threshold; i++) {
+			repository.deleteMessageFromPublicChat(result.get(i));
+		}
 	}
 
 }

@@ -14,4 +14,6 @@ public interface Repository {
 	
 	void addMessageToPrivateChat(MessageEntity message) throws StorageException;
 
+	void deleteMessageFromPublicChat(MessageEntity message) throws StorageException;
+
 }

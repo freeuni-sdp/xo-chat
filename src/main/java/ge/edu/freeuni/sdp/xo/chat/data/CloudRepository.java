@@ -36,24 +36,20 @@ public class CloudRepository implements Repository {
 	}
 
 	@Override
-	public void addMessageToPublicChat(MessageEntity message)
-			throws StorageException {
+	public void addMessageToPublicChat(MessageEntity message) throws StorageException {
 		TableOperation insertMessage = TableOperation.insert(message);
-		try {
-			tableForPublicChat.execute(insertMessage);
-		} catch (StorageException e) {
-			e.printStackTrace();
-		}		
+		tableForPublicChat.execute(insertMessage);
 	}
 
 	@Override
-	public void addMessageToPrivateChat(MessageEntity message)
-			throws StorageException {
+	public void addMessageToPrivateChat(MessageEntity message) throws StorageException {
 		TableOperation insertMessage = TableOperation.insert(message);
-		try {
-			tableForPrivateChat.execute(insertMessage);
-		} catch (StorageException e) {
-			e.printStackTrace();
-		}	
+		tableForPrivateChat.execute(insertMessage);
+	}
+
+	@Override
+	public void deleteMessageFromPublicChat(MessageEntity message) throws StorageException {
+		TableOperation deleteMessage = TableOperation.delete(message);
+		tableForPublicChat.execute(deleteMessage);
 	}
 }
