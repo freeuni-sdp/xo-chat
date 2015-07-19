@@ -82,6 +82,7 @@ public class ChatServiceTest extends JerseyTest{
     public void testAddChatMessageExceptionBadRoomID() throws StorageException{
 		
 		SendMessageDo message = new SendMessageDo();
+		message.text="test";
 		message.roomID = "-5";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));
@@ -92,6 +93,7 @@ public class ChatServiceTest extends JerseyTest{
     public void testAddChatMessageExceptionBadToken() throws StorageException{
 		
 		SendMessageDo message = new SendMessageDo();
+		message.text="test";
 		message.roomID = "1";
 
 		Response actual = target("/").request().post(Entity.entity(message, MediaType.APPLICATION_JSON_TYPE));

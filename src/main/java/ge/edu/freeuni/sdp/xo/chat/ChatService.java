@@ -91,7 +91,8 @@ public class ChatService {
 	public Response addPrivateChatMessage(@QueryParam("token") String token,
 										  @NotNull MessageDo message) throws StorageException {
 
-		if (message.getText().trim().isEmpty())
+		System.out.println(message);
+		if (message.getText() == null || message.getText().trim().isEmpty())
 			return Response.status(Status.BAD_REQUEST).build();
 
 		if (!isTokenValid(token))
