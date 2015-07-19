@@ -9,6 +9,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -88,9 +89,9 @@ public class ChatService {
 	 */
 	@POST
 	public Response addPrivateChatMessage(@QueryParam("token") String token,
-										  MessageDo message) throws StorageException {
+										  @NotNull MessageDo message) throws StorageException {
 
-		if (message == null)
+		if (message.getText().trim().isEmpty())
 			return Response.status(Status.BAD_REQUEST).build();
 
 		if (!isTokenValid(token))
